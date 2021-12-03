@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/searchFragment">
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.vkpi.touristapp.ui.fragments.SearchFragment"
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_detailedPlaceFragment"
+            app:destination="@id/detailedPlaceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailedPlaceFragment"
+        android:name="com.vkpi.touristapp.ui.fragments.DetailedPlaceFragment"
+        android:label="DetailedPlaceFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.vkpi.touristapp.ui.fragments.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.vkpi.touristapp.ui.fragments.MapFragment"
+        android:label="MapFragment" />
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.vkpi.touristapp.ui.fragments.RegistrationFragment"
+        android:label="RegistrationFragment" >
+        <action
+            android:id="@+id/action_registrationFragment_to_loginFragment23"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/savedFragment"
+        android:name="com.vkpi.touristapp.ui.fragments.SavedFragment"
+        android:label="SavedFragment" >
+        <action
+            android:id="@+id/action_savedFragment_to_detailedPlaceFragment"
+            app:destination="@id/detailedPlaceFragment" />
+    </fragment>
+</navigation>
