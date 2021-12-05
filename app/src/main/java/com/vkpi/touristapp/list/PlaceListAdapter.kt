@@ -9,7 +9,7 @@ import com.vkpi.touristapp.databinding.PlacesListItemBinding
 
 class PlaceListAdapter :
     RecyclerView.Adapter<PlaceListViewHolder>() {
-    var placesList = mutableListOf<Feature>()
+    private var placesList = mutableListOf<Feature>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaceListViewHolder {
 
         val binding =
@@ -20,8 +20,14 @@ class PlaceListAdapter :
     override fun onBindViewHolder(holder: PlaceListViewHolder, position: Int) {
         holder.bind(placesList[position])
     }
-    fun submitList(list:List<Feature>){
-        placesList = list.toMutableList()
+
+    fun submitList(list: List<Feature>) {
+        placesList = list.filter { feat -> feat.properties.name.isNotEmpty() }.toMutableList()
+        notifyDataSetChanged()
+    }
+
+    fun filterList(list: List<Feature>,param: String) {
+        placesList = list.filter { it.properties.kinds.contains(param) }.toMutableList()
         notifyDataSetChanged()
     }
 

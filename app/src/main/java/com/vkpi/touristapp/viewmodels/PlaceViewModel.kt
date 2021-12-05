@@ -7,8 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.vkpi.touristapp.data.City
 import com.vkpi.touristapp.data.Places
 import com.vkpi.touristapp.repository.PlaceRepository
+import com.vkpi.touristapp.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,18 +19,24 @@ class PlaceViewModel @Inject constructor(val repository: PlaceRepository) : View
     private val _cityLiveData: MutableLiveData<City> = MutableLiveData()
     val cityLiveData: LiveData<City> = _cityLiveData
 
-    private val _placeLiveData: MutableLiveData<Places> = MutableLiveData()
-    val placesLiveData: LiveData<Places> = _placeLiveData
+    private val _placeLiveData: MutableLiveData<Resource<Places?>> = MutableLiveData()
+    val placesLiveData: LiveData<Resource<Places?>> = _placeLiveData
 
-    fun applyCity(name:String){
+    fun applyCity(name: String) {
         viewModelScope.launch {
             _cityLiveData.postValue(repository.getCity(name))
         }
     }
 
-    fun applyPlaces(lat:String,lot:String){
+    fun applyPlaces(lat: String, lot: String) {
+        _placeLiveData.value = Resource.Loading()
         viewModelScope.launch {
-            _placeLiveData.postValue(repository.getPlaces(lat,lot))
+            delay(2000)
+            try {
+                _placeLiveData.postValue(Resource.Success(repository.getPlaces(lat, lot)))
+            } catch (exc: Exception) {
+                _placeLiveData.postValue(Resource.Error("Something went wrong"))
+            }
         }
     }
 }

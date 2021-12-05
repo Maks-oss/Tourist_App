@@ -1,5 +1,6 @@
 package com.vkpi.touristapp.di
 
+import com.vkpi.touristapp.list.PlaceListAdapter
 import com.vkpi.touristapp.retrofit.PlaceService
 import dagger.Module
 import dagger.Provides
@@ -25,4 +26,7 @@ object AppModule {
     @Provides
     @Singleton
     fun providePlaceService(retrofit : Retrofit) : PlaceService = retrofit.create(PlaceService::class.java)
+
+    @Provides
+    fun providesPlacesListAdapter() : PlaceListAdapter = PlaceListAdapter()
 }
