@@ -26,6 +26,7 @@ import javax.inject.Inject
 class SearchFragment : Fragment() {
     private lateinit var fragmentSearchBinding: FragmentSearchBinding
     private val placeViewModel by viewModels<PlaceViewModel>()
+
     @Inject
     lateinit var placeListAdapter: PlaceListAdapter
     override fun onCreateView(
@@ -45,11 +46,14 @@ class SearchFragment : Fragment() {
             }
             placesRecyclerView.adapter = placeListAdapter
             chipGroup.setOnCheckedChangeListener { group, checkedId ->
-                if (checkedId==-1){
+                if (checkedId == -1) {
                     placeListAdapter.submitList(placeViewModel.placesLiveData.value!!.data!!.features)
                 } else {
                     val chip = group.findViewById<Chip>(checkedId)
-                    placeListAdapter.filterList(placeViewModel.placesLiveData.value!!.data!!.features,chip.text.toString())
+                    placeListAdapter.filterList(
+                        placeViewModel.placesLiveData.value!!.data!!.features,
+                        chip.text.toString()
+                    )
                 }
             }
         }
@@ -87,8 +91,9 @@ class SearchFragment : Fragment() {
 
         }
     }
-    private fun createChips(list:List<Feature>){
-        val chipList=list.map { it.properties.kinds.split(",") }.flatten().distinct()
+
+    private fun createChips(list: List<Feature>) {
+        val chipList = list.map { it.properties.kinds.split(",") }.flatten().distinct()
         chipList.forEach { category ->
             fragmentSearchBinding.chipGroup.addView(requireContext().createChip(category))
         }
