@@ -3,4 +3,5 @@
     <string name="search">Search</string>
     <string name="map">Map</string>
     <string name="saved">Saved</string>
+    <string name="enter_city">Enter city</string>
 </resources>
