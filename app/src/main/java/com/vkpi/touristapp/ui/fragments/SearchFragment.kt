@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.forEach
 import androidx.core.view.get
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import com.google.android.material.chip.Chip
 import com.vkpi.touristapp.R
@@ -20,6 +22,9 @@ import com.vkpi.touristapp.utils.Resource
 import com.vkpi.touristapp.utils.createChip
 import com.vkpi.touristapp.viewmodels.PlaceViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -27,8 +32,8 @@ class SearchFragment : Fragment() {
     private lateinit var fragmentSearchBinding: FragmentSearchBinding
     private val placeViewModel by viewModels<PlaceViewModel>()
 
-    @Inject
-    lateinit var placeListAdapter: PlaceListAdapter
+
+    private lateinit var placeListAdapter: PlaceListAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,24 +45,44 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupObservers()
-        fragmentSearchBinding.apply {
-            cityInputLayout.setEndIconOnClickListener {
-                placeViewModel.applyCity(cityInput.text.toString())
+        setupTextInput()
+        setupRecyclerView()
+        setupChipGroup()
+    }
+
+    private fun setupRecyclerView() {
+        placeListAdapter = PlaceListAdapter()
+        fragmentSearchBinding.placesRecyclerView.adapter = placeListAdapter
+    }
+
+    private fun setupChipGroup() {
+        fragmentSearchBinding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
+            if (checkedId == -1) {
+                placeListAdapter.submitList(placeViewModel.placesLiveData.value!!.data!!.features)
+            } else {
+                val chip = group.findViewById<Chip>(checkedId)
+                placeListAdapter.filterList(
+                    placeViewModel.placesLiveData.value!!.data!!.features,
+                    chip.text.toString()
+                )
             }
-            placesRecyclerView.adapter = placeListAdapter
-            chipGroup.setOnCheckedChangeListener { group, checkedId ->
-                if (checkedId == -1) {
-                    placeListAdapter.submitList(placeViewModel.placesLiveData.value!!.data!!.features)
-                } else {
-                    val chip = group.findViewById<Chip>(checkedId)
-                    placeListAdapter.filterList(
-                        placeViewModel.placesLiveData.value!!.data!!.features,
-                        chip.text.toString()
-                    )
+        }
+    }
+
+    private fun setupTextInput() {
+        var job: Job? = null
+
+        fragmentSearchBinding.cityInput.addTextChangedListener { input ->
+            job?.cancel()
+            job = lifecycleScope.launch {
+                delay(2000)
+                input?.let { city ->
+                    if (city.toString().isNotEmpty()) {
+                        placeViewModel.applyCity(city.toString())
+                    }
                 }
             }
         }
-
     }
 
     private fun setupObservers() {

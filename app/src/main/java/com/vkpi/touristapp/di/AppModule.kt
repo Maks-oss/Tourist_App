@@ -27,6 +27,4 @@ object AppModule {
     @Singleton
     fun providePlaceService(retrofit : Retrofit) : PlaceService = retrofit.create(PlaceService::class.java)
 
-    @Provides
-    fun providesPlacesListAdapter() : PlaceListAdapter = PlaceListAdapter()
 }

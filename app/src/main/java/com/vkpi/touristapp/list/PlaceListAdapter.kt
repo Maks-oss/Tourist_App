@@ -11,7 +11,6 @@ import com.vkpi.touristapp.databinding.PlacesListItemBinding
 
 class PlaceListAdapter :
     RecyclerView.Adapter<PlaceListViewHolder>() {
-//    private var placesList = mutableListOf<Feature>()
     private val differCallback = object : DiffUtil.ItemCallback<Feature>() {
         override fun areItemsTheSame(oldItem: Feature, newItem: Feature): Boolean {
             return oldItem.id == newItem.id
