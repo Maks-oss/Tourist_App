@@ -9,11 +9,11 @@ data class PlaceDetail(
     val osm: String,
     val otm: String,
     val point: Point,
-    val preview: Preview,
+    val preview: Preview?,
     val rate: String,
     val sources: Sources,
     val wikidata: String,
     val wikipedia: String,
-    val wikipedia_extracts: WikipediaExtracts,
+    val wikipedia_extracts: WikipediaExtracts?,
     val xid: String
 )

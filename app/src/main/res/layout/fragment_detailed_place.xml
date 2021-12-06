@@ -2,31 +2,66 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
     xmlns:tools="http://schemas.android.com/tools">
-    <LinearLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:orientation="vertical"
         android:layout_height="wrap_content">
-    <ImageView
-        android:layout_width="match_parent"
-        android:id="@+id/place_image"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background"
-        android:layout_height="300dp"/>
-    <TextView
-        android:layout_margin="5dp"
-        android:id="@+id/place_name"
-        android:layout_width="match_parent"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        tools:text="City place"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_margin="5dp"
-        android:id="@+id/place_description"
-        tools:text="City Description"
-        android:layout_height="wrap_content"/>
-    </LinearLayout>
+
+        <ImageView
+            android:id="@+id/place_image"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_marginBottom="5dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/place_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/place_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/place_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/place_image"
+            tools:text="City place" />
+
+        <TextView
+            android:id="@+id/place_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="288dp"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/place_name"
+            tools:text="City Description\nsdsadas\nsadasdas\ndsaasdasd\ndasdasdasd\nasdasdasd" />
+
+        <Button
+            android:id="@+id/save_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_marginEnd="8dp"
+            android:text="@string/save_place"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/place_description" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

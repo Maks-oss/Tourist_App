@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.vkpi.touristapp.R
 import com.vkpi.touristapp.databinding.FragmentDetailedPlaceBinding
 import com.vkpi.touristapp.databinding.FragmentSearchBinding
+import com.vkpi.touristapp.utils.IMAGE_NOT_FOUND_URL
 import com.vkpi.touristapp.viewmodels.PlaceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,10 +40,10 @@ class DetailedPlaceFragment: Fragment() {
     }
     private fun setupObserver(){
         placeViewModel.placeDetailLiveData.observe(viewLifecycleOwner){
-            Log.d("TAG", "setupObserver: $it")
-            Glide.with(fragmentDetailedPlaceBinding.root).load(it.preview.source).into(fragmentDetailedPlaceBinding.placeImage)
+            Glide.with(fragmentDetailedPlaceBinding.root).load(it.preview?.source?: IMAGE_NOT_FOUND_URL).transition(
+                DrawableTransitionOptions.withCrossFade()).into(fragmentDetailedPlaceBinding.placeImage)
             fragmentDetailedPlaceBinding.placeName.text=it.name
-            fragmentDetailedPlaceBinding.placeDescription.text=it.wikipedia_extracts.text
+            fragmentDetailedPlaceBinding.placeDescription.text=it.wikipedia_extracts?.text
         }
     }
 }

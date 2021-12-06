@@ -68,6 +68,9 @@
         <include layout="@layout/places_list_item_shimmer" />
         <include layout="@layout/places_list_item_shimmer" />
         <include layout="@layout/places_list_item_shimmer" />
+        <include layout="@layout/places_list_item_shimmer" />
+        <include layout="@layout/places_list_item_shimmer" />
+        <include layout="@layout/places_list_item_shimmer" />
 
 
     </LinearLayout>

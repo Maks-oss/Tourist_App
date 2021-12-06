@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.maps.model.LatLng
 import com.vkpi.touristapp.data.City
+import com.vkpi.touristapp.data.Feature
 import com.vkpi.touristapp.data.PlaceDetail
 import com.vkpi.touristapp.data.Places
 import com.vkpi.touristapp.repository.PlaceRepository
@@ -31,11 +33,28 @@ class PlaceViewModel @Inject constructor(val repository: PlaceRepository) : View
             _cityLiveData.postValue(repository.getCity(name))
         }
     }
-    fun applyPlaceDetail(id:String){
+
+    fun applyPlaceDetail(id: String) {
         viewModelScope.launch {
-            _placeDetailLiveData.value=repository.getPlaceDetail(id)
+            _placeDetailLiveData.value = repository.getPlaceDetail(id)
         }
     }
+
+    fun getCityName() = _cityLiveData.value?.name
+
+    fun getPlaceIdByLocation(latLng: LatLng): String? {
+        return _placeLiveData.value?.data?.features?.find {
+            it.geometry.coordinates.contains(latLng.latitude) && it.geometry.coordinates.contains(
+                latLng.longitude
+            )
+        }?.properties?.xid
+    }
+
+    fun getSortedFeatureList(): List<Feature>? {
+        return _placeLiveData.value?.data?.features?.sortedByDescending { it.properties.rate }
+            ?.distinctBy { it.properties.name }
+    }
+
     fun applyPlaces(lat: String, lot: String) {
         _placeLiveData.value = Resource.Loading()
         viewModelScope.launch {

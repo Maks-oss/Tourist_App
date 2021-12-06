@@ -6,4 +6,6 @@
     <string name="enter_city">Enter city</string>
     <string name="current_location">Current Location</string>
     <string name="coordinates">%1$s : %2$s</string>
+    <string name="save_place">Save place</string>
+    <string name="empty_response">Nothing was found by your request</string>
 </resources>

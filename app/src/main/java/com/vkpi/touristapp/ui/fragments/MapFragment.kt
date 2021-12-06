@@ -14,11 +14,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.vkpi.touristapp.R
 import com.vkpi.touristapp.data.Places
@@ -67,16 +69,17 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
                 lastLocation!!.longitude.toString()
             )
         }
+
     }
 
     private fun setupObserver() {
         placeViewModel.placesLiveData.observe(viewLifecycleOwner) { place ->
-            if (place is Resource.Success&&place.data!=null) {
+            if (place is Resource.Success && place.data != null) {
                 place.data.features.filter { it.properties.name.isNotEmpty() }.forEach {
                     googleMap!!.createMarker(
                         LatLng(it.geometry.coordinates[1], it.geometry.coordinates.first()),
-                        it.properties.name
-                    )
+                        it.properties.name,
+                    ) { marker -> processMarkerClick(marker) }
                 }
                 googleMap?.animateCamera(
                     CameraUpdateFactory.newLatLngZoom(
@@ -137,16 +140,6 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
         }
     }
 
-    private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
-        return ContextCompat.getDrawable(context, vectorResId)?.run {
-            setBounds(0, 0, intrinsicWidth, intrinsicHeight)
-            val bitmap =
-                Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
-            draw(Canvas(bitmap))
-            BitmapDescriptorFactory.fromBitmap(bitmap)
-        }
-    }
-
     private fun checkPermission() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -166,4 +159,23 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
             )
         }
     }
+
+    private fun processMarkerClick(marker: Marker): Boolean {
+        val latLng = LatLng(
+            lastLocation!!.latitude,
+            lastLocation!!.longitude
+        )
+        val id = placeViewModel.getPlaceIdByLocation(marker!!.position)
+        return if (marker.position != latLng && !id.isNullOrEmpty()) {
+            findNavController().navigate(
+                MapFragmentDirections.actionMapFragmentToDetailedPlaceFragment(
+                    id
+                )
+            )
+            true
+        } else {
+            false
+        }
+    }
+
 }

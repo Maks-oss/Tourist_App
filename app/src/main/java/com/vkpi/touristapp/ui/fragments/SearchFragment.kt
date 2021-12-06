@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import com.google.android.material.chip.Chip
+import com.vkpi.touristapp.R
 import com.vkpi.touristapp.data.Feature
 import com.vkpi.touristapp.databinding.FragmentSearchBinding
 import com.vkpi.touristapp.list.PlaceListAdapter
@@ -53,13 +54,13 @@ class SearchFragment : Fragment() {
 
     private fun setupChipGroup() {
         fragmentSearchBinding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
-            val featuresList = sortedList(placeViewModel.placesLiveData.value!!.data!!.features)
+            val featuresList = placeViewModel.getSortedFeatureList()
             if (checkedId == -1) {
-                placeListAdapter.submitList(featuresList)
+                placeListAdapter.submitList(featuresList!!)
             } else {
                 val chip = group.findViewById<Chip>(checkedId)
                 placeListAdapter.filterList(
-                    featuresList,
+                    featuresList!!,
                     chip.text.toString()
                 )
             }
@@ -73,9 +74,7 @@ class SearchFragment : Fragment() {
             job = lifecycleScope.launch {
                 delay(2000)
                 input?.let { city ->
-                    if (city.toString()
-                            .isNotEmpty() && placeViewModel.cityLiveData.value?.name != city.toString()
-                    ) {
+                    if (city.toString().isNotEmpty() && !placeViewModel.getCityName().equals(city.toString(), ignoreCase = true)) {
                         placeViewModel.applyCity(city.toString())
                     }
                 }
@@ -90,11 +89,18 @@ class SearchFragment : Fragment() {
         placeViewModel.placesLiveData.observe(viewLifecycleOwner) { place ->
             when (place) {
                 is Resource.Success -> {
-                    val list =
-                        sortedList(place.data?.features!!)
-                    placeListAdapter.submitList(list)
-                    createChips(list)
-                    stopShimmerAnimation()
+                    val list = placeViewModel.getSortedFeatureList()
+                    if (list.isNullOrEmpty()) {
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.empty_response),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        placeListAdapter.submitList(list)
+                        createChips(list)
+                        stopShimmerAnimation()
+                    }
                 }
                 is Resource.Loading -> {
                     startShimmerAnimation()
@@ -107,9 +113,6 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun sortedList(featuresList: List<Feature>) =
-        featuresList.sortedByDescending { it.properties.rate }
-            .distinctBy { it.properties.name }
 
     private fun startShimmerAnimation() {
         fragmentSearchBinding.apply {
