@@ -42,5 +42,4 @@ fun GoogleMap.createMarker(latLng: LatLng, text: String) {
             .title(text)
             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
     )
-//    animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10F))
 }

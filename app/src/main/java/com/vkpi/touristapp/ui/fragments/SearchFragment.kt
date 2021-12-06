@@ -53,15 +53,13 @@ class SearchFragment : Fragment() {
 
     private fun setupChipGroup() {
         fragmentSearchBinding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
-            val featuresList = placeViewModel.placesLiveData.value!!.data!!.features
+            val featuresList = sortedList(placeViewModel.placesLiveData.value!!.data!!.features)
             if (checkedId == -1) {
-                placeListAdapter.submitList(featuresList.sortedByDescending { it.properties.rate }
-                    .distinctBy { it.properties.name })
+                placeListAdapter.submitList(featuresList)
             } else {
                 val chip = group.findViewById<Chip>(checkedId)
                 placeListAdapter.filterList(
-                    featuresList.sortedByDescending { it.properties.rate }
-                        .distinctBy { it.properties.name },
+                    featuresList,
                     chip.text.toString()
                 )
             }
@@ -75,7 +73,9 @@ class SearchFragment : Fragment() {
             job = lifecycleScope.launch {
                 delay(2000)
                 input?.let { city ->
-                    if (city.toString().isNotEmpty()) {
+                    if (city.toString()
+                            .isNotEmpty() && placeViewModel.cityLiveData.value?.name != city.toString()
+                    ) {
                         placeViewModel.applyCity(city.toString())
                     }
                 }
@@ -85,42 +85,45 @@ class SearchFragment : Fragment() {
 
     private fun setupObservers() {
         placeViewModel.cityLiveData.observe(viewLifecycleOwner) { city ->
-            val data = placeViewModel.placesLiveData.value?.data
-            val coordinates = data?.features?.find {
-                it.geometry.coordinates.contains(city.lat) && it.geometry.coordinates.contains(
-                    city.lon
-                )
-            }
-            if (data == null || coordinates == null) {
-                placeViewModel.applyPlaces(city.lat.toString(), city.lon.toString())
-            }
+            placeViewModel.applyPlaces(city.lat.toString(), city.lon.toString())
         }
         placeViewModel.placesLiveData.observe(viewLifecycleOwner) { place ->
             when (place) {
                 is Resource.Success -> {
                     val list =
-                        place.data?.features!!.sortedByDescending { it.properties.rate }
-                            .distinctBy { it.properties.name }
+                        sortedList(place.data?.features!!)
                     placeListAdapter.submitList(list)
                     createChips(list)
-                    fragmentSearchBinding.apply {
-                        shimmerLayout.stopShimmer()
-                        shimmerLayout.visibility = View.GONE
-                        fragmentSearchBinding.placesRecyclerView.visibility = View.VISIBLE
-                    }
+                    stopShimmerAnimation()
                 }
                 is Resource.Loading -> {
-                    fragmentSearchBinding.apply {
-                        placesRecyclerView.visibility = View.GONE
-                        shimmerLayout.visibility = View.VISIBLE
-                        shimmerLayout.startShimmer()
-                    }
+                    startShimmerAnimation()
                 }
                 is Resource.Error -> {
                     Toast.makeText(requireContext(), place.message, Toast.LENGTH_SHORT).show()
                 }
             }
 
+        }
+    }
+
+    private fun sortedList(featuresList: List<Feature>) =
+        featuresList.sortedByDescending { it.properties.rate }
+            .distinctBy { it.properties.name }
+
+    private fun startShimmerAnimation() {
+        fragmentSearchBinding.apply {
+            placesRecyclerView.visibility = View.GONE
+            shimmerLayout.visibility = View.VISIBLE
+            shimmerLayout.startShimmer()
+        }
+    }
+
+    private fun stopShimmerAnimation() {
+        fragmentSearchBinding.apply {
+            shimmerLayout.stopShimmer()
+            shimmerLayout.visibility = View.GONE
+            fragmentSearchBinding.placesRecyclerView.visibility = View.VISIBLE
         }
     }
 
