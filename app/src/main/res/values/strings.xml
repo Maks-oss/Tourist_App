@@ -8,4 +8,11 @@
     <string name="coordinates">%1$s : %2$s</string>
     <string name="save_place">Save place</string>
     <string name="empty_response">Nothing was found by your request</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="login_error">Login length should be greater than 4</string>
+    <string name="password_error">Password length should be greater than 4</string>
+    <string name="repeat_password_error">Passwords must be the same</string>
 </resources>

@@ -51,11 +51,6 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        fusedLocationProvider?.removeLocationUpdates(locationCallback)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(requireContext())

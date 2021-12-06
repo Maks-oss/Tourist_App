@@ -21,6 +21,7 @@ fun Context.createChip(text: String) = Chip(this).apply {
     setTextColor(R.attr.colorOnPrimary)
 }
 
+
 fun GoogleMap.setupMap(latLng: LatLng, text: String) {
     clear()
     addMarker(
