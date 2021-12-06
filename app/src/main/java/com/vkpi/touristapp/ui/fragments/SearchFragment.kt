@@ -6,15 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.forEach
-import androidx.core.view.get
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import com.google.android.material.chip.Chip
-import com.vkpi.touristapp.R
 import com.vkpi.touristapp.data.Feature
 import com.vkpi.touristapp.databinding.FragmentSearchBinding
 import com.vkpi.touristapp.list.PlaceListAdapter
@@ -25,7 +22,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -57,12 +53,15 @@ class SearchFragment : Fragment() {
 
     private fun setupChipGroup() {
         fragmentSearchBinding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
+            val featuresList = placeViewModel.placesLiveData.value!!.data!!.features
             if (checkedId == -1) {
-                placeListAdapter.submitList(placeViewModel.placesLiveData.value!!.data!!.features)
+                placeListAdapter.submitList(featuresList.sortedByDescending { it.properties.rate }
+                    .distinctBy { it.properties.name })
             } else {
                 val chip = group.findViewById<Chip>(checkedId)
                 placeListAdapter.filterList(
-                    placeViewModel.placesLiveData.value!!.data!!.features,
+                    featuresList.sortedByDescending { it.properties.rate }
+                        .distinctBy { it.properties.name },
                     chip.text.toString()
                 )
             }
@@ -71,7 +70,6 @@ class SearchFragment : Fragment() {
 
     private fun setupTextInput() {
         var job: Job? = null
-
         fragmentSearchBinding.cityInput.addTextChangedListener { input ->
             job?.cancel()
             job = lifecycleScope.launch {
@@ -86,14 +84,23 @@ class SearchFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        placeViewModel.cityLiveData.observe(viewLifecycleOwner) {
-            placeViewModel.applyPlaces(it.lat.toString(), it.lon.toString())
+        placeViewModel.cityLiveData.observe(viewLifecycleOwner) { city ->
+            val data = placeViewModel.placesLiveData.value?.data
+            val coordinates = data?.features?.find {
+                it.geometry.coordinates.contains(city.lat) && it.geometry.coordinates.contains(
+                    city.lon
+                )
+            }
+            if (data == null || coordinates == null) {
+                placeViewModel.applyPlaces(city.lat.toString(), city.lon.toString())
+            }
         }
         placeViewModel.placesLiveData.observe(viewLifecycleOwner) { place ->
             when (place) {
                 is Resource.Success -> {
                     val list =
-                        place.data?.features!!
+                        place.data?.features!!.sortedByDescending { it.properties.rate }
+                            .distinctBy { it.properties.name }
                     placeListAdapter.submitList(list)
                     createChips(list)
                     fragmentSearchBinding.apply {

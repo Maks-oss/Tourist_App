@@ -11,4 +11,6 @@ class PlaceRepository @Inject constructor(private val placeService: PlaceService
 
     suspend fun getPlaces(lat: String, lon: String) =
         placeService.getPlacesResponse(lat = lat, lon = lon).body()
+
+    suspend fun getPlaceDetail(xid: String) = placeService.getPlaceDetailResponse(xid).body()
 }

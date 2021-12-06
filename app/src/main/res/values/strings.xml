@@ -4,4 +4,6 @@
     <string name="map">Map</string>
     <string name="saved">Saved</string>
     <string name="enter_city">Enter city</string>
+    <string name="current_location">Current Location</string>
+    <string name="coordinates">%1$s : %2$s</string>
 </resources>
