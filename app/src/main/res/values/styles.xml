@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.TouristApp.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+
+        <item name="fontFamily">@font/lato_bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:letterSpacing">0</item>
+
+    </style>
+
+    <style name="TextAppearance.TouristApp.AppearanceBody1" parent="TextAppearance.MaterialComponents.Body1">
+
+        <item name="fontFamily">@font/lato_italic</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0</item>
+
+    </style>
+    <style name="TextAppearance.TouristApp.AppearanceButton" parent="TextAppearance.MaterialComponents.Button">
+
+        <item name="fontFamily">@font/lato_regular</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">0</item>
+
+    </style>
+    <style name="TextAppearance.TouristApp.TextInput" parent="TextAppearance.MaterialComponents.Caption">
+
+        <item name="fontFamily">@font/lato_regular</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0</item>
+
+    </style>
+</resources>

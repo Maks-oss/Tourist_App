@@ -19,15 +19,13 @@
         tool:text="PlaceName"
         android:id="@+id/place_name"
         android:layout_margin="5dp"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:textColor="@color/black"
+        style="@style/TextAppearance.TouristApp.Headline1"
         android:layout_height="wrap_content"/>
     <TextView
         android:layout_width="match_parent"
         android:id="@+id/place_type"
+        style="@style/TextAppearance.TouristApp.AppearanceBody1"
         android:layout_margin="5dp"
-        android:textColor="@color/black"
         tool:text="PlaceType"
         android:layout_height="wrap_content"/>
     </LinearLayout>
