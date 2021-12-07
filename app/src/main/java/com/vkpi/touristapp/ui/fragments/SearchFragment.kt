@@ -18,6 +18,7 @@ import com.vkpi.touristapp.databinding.FragmentSearchBinding
 import com.vkpi.touristapp.list.PlaceListAdapter
 import com.vkpi.touristapp.utils.Resource
 import com.vkpi.touristapp.utils.createChip
+import com.vkpi.touristapp.utils.showMessage
 import com.vkpi.touristapp.viewmodels.PlaceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -91,22 +92,19 @@ class SearchFragment : Fragment() {
                 is Resource.Success -> {
                     val list = placeViewModel.getSortedFeatureList()
                     if (list.isNullOrEmpty()) {
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.empty_response),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        requireContext().showMessage(getString(R.string.empty_response))
                     } else {
                         placeListAdapter.submitList(list)
                         createChips(list)
-                        stopShimmerAnimation()
                     }
+                    stopShimmerAnimation()
                 }
                 is Resource.Loading -> {
                     startShimmerAnimation()
                 }
                 is Resource.Error -> {
-                    Toast.makeText(requireContext(), place.message, Toast.LENGTH_SHORT).show()
+                    requireContext().showMessage(place.message!!)
+                    stopShimmerAnimation()
                 }
             }
 

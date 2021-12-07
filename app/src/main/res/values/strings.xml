@@ -15,4 +15,7 @@
     <string name="login_error">Login length should be greater than 4</string>
     <string name="password_error">Password length should be greater than 4</string>
     <string name="repeat_password_error">Passwords must be the same</string>
+    <string name="text_fields_message">Complete all text fields</string>
+    <string name="existing_user_message">User with the same login already exists</string>
+    <string name="user_not_exist_message">User with given login is not exist</string>
 </resources>

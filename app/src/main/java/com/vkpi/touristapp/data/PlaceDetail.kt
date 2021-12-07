@@ -1,5 +1,7 @@
 package com.vkpi.touristapp.data
 
+import android.util.Log
+
 data class PlaceDetail(
     val address: Address,
     val bbox: Bbox,
@@ -16,4 +18,8 @@ data class PlaceDetail(
     val wikipedia: String,
     val wikipedia_extracts: WikipediaExtracts?,
     val xid: String
-)
+){
+    override fun hashCode(): Int {
+        return xid.hashCode()
+    }
+}
