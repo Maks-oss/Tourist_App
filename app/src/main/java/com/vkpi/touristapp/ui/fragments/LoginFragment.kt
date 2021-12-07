@@ -23,7 +23,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
     private lateinit var fragmentLoginBinding: FragmentLoginBinding
-    private val placeViewModel by viewModels<PlaceViewModel>()
     private val userViewModel by activityViewModels<UserViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,44 +46,45 @@ class LoginFragment : Fragment() {
     private fun processLogin() {
         val login = fragmentLoginBinding.loginInput.text.toString()
         val loginValid =
-            LoginUtils.isLoginValid(login)
+            LoginUtils.isValidInput(login)
         val password = fragmentLoginBinding.passwordInput.text.toString()
         val passwordValid =
-            LoginUtils.isPasswordValid(password)
+            LoginUtils.isValidInput(password)
         applyLoginValidation(loginValid)
         applyPasswordValidation(passwordValid)
-        Log.d("TAG", "processLogin: ${(login.hashCode() + password.hashCode()).toLong()}")
-        userViewModel.applyUser((login.hashCode() + password.hashCode()).toLong())
-        setupObserver(loginValid && passwordValid)
+        applyLoginAction(
+            loginValid && passwordValid,
+            (login.hashCode() + password.hashCode()).toLong()
+        )
     }
 
-    private fun setupObserver(isValid: Boolean) {
-        userViewModel.userLiveData.observe(viewLifecycleOwner) {
+    private fun applyLoginAction(isValid: Boolean, userId: Long) {
+        lifecycleScope.launch {
             if (isValid) {
-                if (it != null) {
+                if (userViewModel.isUserExist(userId)) {
+                    userViewModel.applyUserId(userId)
                     findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSearchFragment())
                 } else {
                     requireContext().showMessage(getString(R.string.user_not_exist_message))
                 }
             }
         }
+
     }
 
     private fun applyPasswordValidation(passwordValid: Boolean) {
-        if (passwordValid) {
-            fragmentLoginBinding.passwordLayout.error = null
+        fragmentLoginBinding.passwordLayout.error = if (passwordValid) {
+            null
         } else {
-            fragmentLoginBinding.passwordLayout.error =
-                getString(R.string.password_error)
+            getString(R.string.password_error)
         }
     }
 
     private fun applyLoginValidation(loginValid: Boolean) {
-        if (loginValid) {
-            fragmentLoginBinding.loginLayout.error = null
+        fragmentLoginBinding.loginLayout.error = if (loginValid) {
+            null
         } else {
-            fragmentLoginBinding.loginLayout.error =
-                getString(R.string.login_error)
+            getString(R.string.login_error)
         }
     }
 }

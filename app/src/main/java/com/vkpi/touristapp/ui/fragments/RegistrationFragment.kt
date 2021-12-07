@@ -45,70 +45,70 @@ class RegistrationFragment : Fragment() {
         val password = registrationBinding.passwordInput.text.toString()
         val userId = login.hashCode() + password.hashCode()
         val loginValid =
-            LoginUtils.isLoginValid(login)
+            LoginUtils.isValidInput(login)
         val passwordValid =
-            LoginUtils.isPasswordValid(password)
+            LoginUtils.isValidInput(password)
         val repeatPasswordValid =
             password == registrationBinding.passwordRepaetNput.text.toString()
 
         applyLoginValidation(loginValid)
         applyPasswordValidation(passwordValid)
         applyRepeatPasswordValidation(repeatPasswordValid)
-        userViewModel.applyUser(userId.toLong())
-        setupObserver(loginValid && passwordValid && repeatPasswordValid,login,password,userId.toLong())
+        applyRegisterAction(
+            loginValid && passwordValid && repeatPasswordValid,
+            login,
+            password,
+            userId.toLong()
+        )
 
     }
 
-    private fun setupObserver(isValid: Boolean, login: String, password: String, userId: Long) {
-        userViewModel.userLiveData.observe(viewLifecycleOwner) {
-            Log.d("TAG", "setupObserver: $it")
+    private fun applyRegisterAction(
+        isValid: Boolean,
+        login: String,
+        password: String,
+        userId: Long
+    ) {
+        lifecycleScope.launch {
             if (isValid) {
-                if (it == null) {
-                    val user = User(
-                        userId = userId,
-                        login = login,
-                        password = password
-                    )
+                if (!userViewModel.isUserExist(userId)) {
                     userViewModel.insertUserIntoDb(
-                        user
+                        User(
+                            userId = userId,
+                            login = login,
+                            password = password
+                        )
                     )
-                    userViewModel.applyUser(user)
+                    userViewModel.applyUserId(userId)
                     findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToSearchFragment())
-
                 } else {
                     requireContext().showMessage(getString(R.string.existing_user_message))
                 }
-            } else {
-                requireContext().showMessage(getString(R.string.text_fields_message))
             }
         }
     }
 
-
     private fun applyRepeatPasswordValidation(repeatPasswordValid: Boolean) {
-        if (!repeatPasswordValid) {
-            registrationBinding.repeatPasswordLayout.error =
-                getString(R.string.repeat_password_error)
+        registrationBinding.repeatPasswordLayout.error = if (!repeatPasswordValid) {
+            getString(R.string.repeat_password_error)
         } else {
-            registrationBinding.repeatPasswordLayout.error = null
+            null
         }
     }
 
     private fun applyPasswordValidation(passwordValid: Boolean) {
-        if (passwordValid) {
-            registrationBinding.passwordLayout.error = null
+        registrationBinding.passwordLayout.error = if (passwordValid) {
+            null
         } else {
-            registrationBinding.passwordLayout.error =
-                getString(R.string.password_error)
+            getString(R.string.password_error)
         }
     }
 
     private fun applyLoginValidation(loginValid: Boolean) {
-        if (loginValid) {
-            registrationBinding.loginLayout.error = null
+        registrationBinding.loginLayout.error = if (loginValid) {
+            null
         } else {
-            registrationBinding.loginLayout.error =
-                getString(R.string.login_error)
+            getString(R.string.login_error)
         }
     }
 }

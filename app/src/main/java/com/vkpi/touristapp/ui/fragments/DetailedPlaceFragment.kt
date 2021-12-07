@@ -45,7 +45,7 @@ class DetailedPlaceFragment : Fragment() {
             else
                 placeViewModel.applyPlaceDetailFromServer(
                     it,
-                    userViewModel.userLiveData.value!!.userId
+                    userViewModel.userIdLiveData.value!!
                 )
         }
         applySaveButton()

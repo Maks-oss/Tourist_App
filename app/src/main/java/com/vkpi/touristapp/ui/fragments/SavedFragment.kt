@@ -24,7 +24,7 @@ class SavedFragment : Fragment(R.layout.fragment_saved) {
     private val userViewModel by activityViewModels<UserViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        placeViewModel.applyUserPlaces(userViewModel.userLiveData.value!!.userId)
+        placeViewModel.applyUserPlaces(userViewModel.userIdLiveData.value!!)
         setupRecyclerView(view)
         setupObserver()
     }
