@@ -1,6 +1,7 @@
 package com.vkpi.touristapp.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,6 +61,7 @@ class RegistrationFragment : Fragment() {
 
     private fun setupObserver(isValid: Boolean, login: String, password: String, userId: Long) {
         userViewModel.userLiveData.observe(viewLifecycleOwner) {
+            Log.d("TAG", "setupObserver: $it")
             if (isValid) {
                 if (it == null) {
                     val user = User(

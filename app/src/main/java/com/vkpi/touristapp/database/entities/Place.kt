@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Place(
-    @PrimaryKey val placeId: Long,
+    @PrimaryKey val placeId: String,
     val userPlaceId: Long,
     val placeName: String,
     val placeKinds: String,

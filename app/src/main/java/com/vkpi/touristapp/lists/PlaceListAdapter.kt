@@ -1,6 +1,5 @@
-package com.vkpi.touristapp.list
+package com.vkpi.touristapp.lists
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer

@@ -5,7 +5,6 @@ import androidx.room.Room
 import com.vkpi.touristapp.database.AppDatabase
 import com.vkpi.touristapp.database.dao.PlaceDao
 import com.vkpi.touristapp.database.dao.UserDao
-import com.vkpi.touristapp.list.PlaceListAdapter
 import com.vkpi.touristapp.retrofit.PlaceService
 import dagger.Module
 import dagger.Provides
@@ -40,7 +39,7 @@ object AppModule {
             appContext,
             AppDatabase::class.java,
             "Tourism"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
     @Provides
     fun provideUserDao(appDatabase: AppDatabase): UserDao {

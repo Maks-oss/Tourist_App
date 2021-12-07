@@ -1,6 +1,7 @@
 package com.vkpi.touristapp.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,6 +53,7 @@ class LoginFragment : Fragment() {
             LoginUtils.isPasswordValid(password)
         applyLoginValidation(loginValid)
         applyPasswordValidation(passwordValid)
+        Log.d("TAG", "processLogin: ${(login.hashCode() + password.hashCode()).toLong()}")
         userViewModel.applyUser((login.hashCode() + password.hashCode()).toLong())
         setupObserver(loginValid && passwordValid)
     }
@@ -60,7 +62,6 @@ class LoginFragment : Fragment() {
         userViewModel.userLiveData.observe(viewLifecycleOwner) {
             if (isValid) {
                 if (it != null) {
-                    placeViewModel.applyUserPlaces(it.userId)
                     findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSearchFragment())
                 } else {
                     requireContext().showMessage(getString(R.string.user_not_exist_message))

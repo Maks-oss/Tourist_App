@@ -7,7 +7,7 @@ import com.vkpi.touristapp.database.dao.UserDao
 import com.vkpi.touristapp.database.entities.Place
 import com.vkpi.touristapp.database.entities.User
 
-@Database(entities = [Place::class, User::class], version = 1)
+@Database(entities = [Place::class, User::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun placeDao(): PlaceDao

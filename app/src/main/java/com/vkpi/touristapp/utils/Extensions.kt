@@ -54,7 +54,7 @@ fun GoogleMap.createMarker(latLng: LatLng, text: String,action:(Marker)->Unit) {
 }
 
 fun PlaceDetail.getUserPlaceEntity(userId:Long)= Place(
-    placeId = hashCode().toLong(),
+    placeId = xid,
     placeKinds = kinds?:"",
     placeDescription = wikipedia_extracts?.text?:"",
     placeName = name?:"",

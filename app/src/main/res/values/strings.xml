@@ -18,4 +18,5 @@
     <string name="text_fields_message">Complete all text fields</string>
     <string name="existing_user_message">User with the same login already exists</string>
     <string name="user_not_exist_message">User with given login is not exist</string>
+    <string name="deleted_item_message">Item was successfully deleted</string>
 </resources>

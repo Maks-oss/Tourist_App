@@ -1,6 +1,5 @@
-package com.vkpi.touristapp.list
+package com.vkpi.touristapp.lists
 
-import android.util.Log
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.vkpi.touristapp.data.Feature
@@ -14,7 +13,7 @@ class PlaceListViewHolder(private val placesListItemBinding: PlacesListItemBindi
                 placeName.text=place.properties.name
                 placeType.text=place.properties.kinds
                 placeCard.setOnClickListener {
-                    it.findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToDetailedPlaceFragment(place.properties.xid))
+                    it.findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToDetailedPlaceFragment(place.id))
                 }
             }
         }

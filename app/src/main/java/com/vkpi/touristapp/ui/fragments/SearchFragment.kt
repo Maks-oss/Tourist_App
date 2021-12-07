@@ -1,11 +1,9 @@
 package com.vkpi.touristapp.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,7 +13,8 @@ import com.google.android.material.chip.Chip
 import com.vkpi.touristapp.R
 import com.vkpi.touristapp.data.Feature
 import com.vkpi.touristapp.databinding.FragmentSearchBinding
-import com.vkpi.touristapp.list.PlaceListAdapter
+import com.vkpi.touristapp.lists.PlaceListAdapter
+import com.vkpi.touristapp.ui.MainActivity
 import com.vkpi.touristapp.utils.Resource
 import com.vkpi.touristapp.utils.createChip
 import com.vkpi.touristapp.utils.showMessage
@@ -42,6 +41,7 @@ class SearchFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (activity as MainActivity).showBottomNavigationBar()
         setupObservers()
         setupTextInput()
         setupRecyclerView()

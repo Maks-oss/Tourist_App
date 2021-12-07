@@ -26,8 +26,8 @@ class PlaceViewModel @Inject constructor(private val placeRepository: PlaceRepos
     private val _cityLiveData: MutableLiveData<City> = MutableLiveData()
     val cityLiveData: LiveData<City> = _cityLiveData
 
-    private val _placeDetailLiveData: MutableLiveData<PlaceDetail> = MutableLiveData()
-    val placeDetailLiveData: LiveData<PlaceDetail> = _placeDetailLiveData
+    private val _placeDetailLiveData: MutableLiveData<Place> = MutableLiveData()
+    val placeDetailLiveData: LiveData<Place> = _placeDetailLiveData
 
     private val _placeLiveData: MutableLiveData<Resource<Places?>> = MutableLiveData()
     val placesLiveData: LiveData<Resource<Places?>> = _placeLiveData
@@ -59,14 +59,18 @@ class PlaceViewModel @Inject constructor(private val placeRepository: PlaceRepos
         }
     }
 
-    fun applyPlaceDetail(id: String) {
+    fun applyPlaceDetailFromServer(id: String,userId:Long) {
         viewModelScope.launch {
-            _placeDetailLiveData.value = placeRepository.getPlaceDetail(id)
+            _placeDetailLiveData.value = placeRepository.getPlaceDetail(id)?.getUserPlaceEntity(userId)
+        }
+    }
+    fun applyPlaceDetailFromDatabase(id: String) {
+        viewModelScope.launch {
+            _placeDetailLiveData.value = placeRepository.getPlaceById(id)
         }
     }
 
     fun getCityName() = _cityLiveData.value?.name
-    fun getUserPlaceEntity(id: Long) = _placeDetailLiveData.value!!.getUserPlaceEntity(id)
 
     fun getPlaceIdByLocation(latLng: LatLng): String? {
         return _placeLiveData.value?.data?.features?.find {

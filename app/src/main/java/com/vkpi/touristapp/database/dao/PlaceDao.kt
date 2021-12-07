@@ -15,7 +15,7 @@ interface PlaceDao {
     suspend fun insertPlace(place: Place)
 
     @Query("SELECT * FROM Place WHERE placeId=:id")
-    suspend fun getPlaceById(id:Long): Place
+    suspend fun getPlaceById(id:String): Place
 
     @Delete
     suspend fun deletePlace(place: Place)

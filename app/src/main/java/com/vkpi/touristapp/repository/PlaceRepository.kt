@@ -19,7 +19,7 @@ class PlaceRepository @Inject constructor(
     suspend fun getUserPlaces(id:Long) = placeDao.getUserPlaces().find {
         it.user.userId == id
     }?.places
-    suspend fun getPlaceById(id:Long) = placeDao.getPlaceById(id)
+    suspend fun getPlaceById(id:String) = placeDao.getPlaceById(id)
     suspend fun getCity(name: String) = placeService.getCityResponse(name = name).body()
 
     suspend fun getPlaces(lat: String, lon: String) =
