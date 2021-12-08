@@ -17,17 +17,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.*
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.vkpi.touristapp.R
 import com.vkpi.touristapp.data.Places
-import com.vkpi.touristapp.utils.PERMISSION_CODE
-import com.vkpi.touristapp.utils.Resource
-import com.vkpi.touristapp.utils.createMarker
-import com.vkpi.touristapp.utils.setupMap
+import com.vkpi.touristapp.utils.*
 import com.vkpi.touristapp.viewmodels.PlaceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -59,34 +54,75 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
         mapFragment?.getMapAsync(this)
         setupObserver()
         view.findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener {
-            placeViewModel.applyPlaces(
-                lastLocation!!.latitude.toString(),
-                lastLocation!!.longitude.toString()
-            )
+            clearMarkers()
+            showAlerDialog()
         }
 
     }
 
+    private fun clearMarkers() {
+        lastLocation?.let {
+            googleMap?.clear()
+            googleMap?.setupMap(
+                LatLng(it.latitude, it.longitude), getString(
+                    R.string.coordinates,
+                    it.longitude.toString(),
+                    it.latitude.toString()
+                )
+            )
+        }
+    }
+
+    private fun showAlerDialog() {
+        val singleItems = resources.getStringArray(R.array.radius_array)
+        val checkedItem = 0
+        var radius = singleItems[checkedItem].extractMeters()
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.radius_option))
+            .setNeutralButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                placeViewModel.applyPlaces(
+                    lastLocation!!.latitude.toString(),
+                    lastLocation!!.longitude.toString(),
+                    radius
+                )
+            }
+            .setSingleChoiceItems(singleItems, checkedItem) { _, which ->
+                radius = singleItems[which].extractMeters()
+            }
+            .show()
+    }
+
     private fun setupObserver() {
         placeViewModel.placesLiveData.observe(viewLifecycleOwner) { place ->
-            if (place is Resource.Success && place.data != null) {
-                place.data.features.filter { it.properties.name.isNotEmpty() }.forEach {
-                    googleMap!!.createMarker(
-                        LatLng(it.geometry.coordinates[1], it.geometry.coordinates.first()),
-                        it.properties.name,
-                    ) { marker -> processMarkerClick(marker) }
+            if (place is Resource.Success) {
+                if (place.data!=null) {
+                    processGoogleMapMarkers(place.data)
+                } else {
+                    requireContext().showMessage(getString(R.string.empty_response))
                 }
-                googleMap?.animateCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                        LatLng(
-                            lastLocation!!.latitude,
-                            lastLocation!!.longitude
-                        ), place.data.features.size.toFloat()
-                    )
-                )
-
             }
         }
+    }
+
+    private fun processGoogleMapMarkers(data: Places) {
+
+        data.features.filter { it.properties.name.isNotEmpty() }.forEach {
+            googleMap!!.createMarker(
+                LatLng(it.geometry.coordinates[1], it.geometry.coordinates.first()),
+                it.properties.name,
+            ) { marker -> processMarkerClick(marker) }
+        }
+        googleMap?.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                LatLng(
+                    lastLocation!!.latitude,
+                    lastLocation!!.longitude
+                ), data.features.size.toFloat()
+            )
+        )
     }
 
     override fun onRequestPermissionsResult(

@@ -18,7 +18,7 @@ interface PlaceService {
 
     @GET("en/places/radius")
     suspend fun getPlacesResponse(
-        @Query("radius") name: String = "1000",
+        @Query("radius") name: String,
         @Query("lon") lon: String,
         @Query("lat") lat: String,
         @Query("apikey") apiKey: String = BuildConfig.apikey

@@ -22,8 +22,8 @@ class PlaceRepository @Inject constructor(
     suspend fun getPlaceById(id:String) = placeDao.getPlaceById(id)
     suspend fun getCity(name: String) = placeService.getCityResponse(name = name).body()
 
-    suspend fun getPlaces(lat: String, lon: String) =
-        placeService.getPlacesResponse(lat = lat, lon = lon).body()
+    suspend fun getPlaces(lat: String, lon: String,radius:String) =
+        placeService.getPlacesResponse(lat = lat, lon = lon,name = radius).body()
 
     suspend fun getPlaceDetail(xid: String) = placeService.getPlaceDetailResponse(xid).body()
 }

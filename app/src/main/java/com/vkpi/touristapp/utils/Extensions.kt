@@ -46,7 +46,7 @@ fun GoogleMap.createMarker(latLng: LatLng, text: String,action:(Marker)->Unit) {
             .position(latLng)
             .anchor(0.5f, 0.5f)
             .title(text)
-            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
     )
     setOnInfoWindowClickListener {
         action(it)
@@ -61,3 +61,5 @@ fun PlaceDetail.getUserPlaceEntity(userId:Long)= Place(
     placeImageUrl = preview?.source?: IMAGE_NOT_FOUND_URL,
     userPlaceId = userId
 )
+
+fun String.extractMeters() =substringBefore(" ").plus("000")

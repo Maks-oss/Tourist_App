@@ -19,4 +19,7 @@
     <string name="existing_user_message">User with the same login already exists</string>
     <string name="user_not_exist_message">User with given login is not exist</string>
     <string name="deleted_item_message">Item was successfully deleted</string>
+    <string name="radius_option">Select radius</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
 </resources>

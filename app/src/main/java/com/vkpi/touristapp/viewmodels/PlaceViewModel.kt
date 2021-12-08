@@ -85,12 +85,12 @@ class PlaceViewModel @Inject constructor(private val placeRepository: PlaceRepos
             ?.distinctBy { it.properties.name }
     }
 
-    fun applyPlaces(lat: String, lot: String) {
+    fun applyPlaces(lat: String, lot: String,radius:String = "1000") {
         _placeLiveData.value = Resource.Loading()
         viewModelScope.launch {
             delay(1000)
             try {
-                _placeLiveData.postValue(Resource.Success(placeRepository.getPlaces(lat, lot)))
+                _placeLiveData.postValue(Resource.Success(placeRepository.getPlaces(lat, lot,radius)))
             } catch (exc: Exception) {
                 _placeLiveData.postValue(Resource.Error("Something went wrong"))
             }
