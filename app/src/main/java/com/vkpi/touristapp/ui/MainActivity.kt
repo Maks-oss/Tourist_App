@@ -1,8 +1,8 @@
 package com.vkpi.touristapp.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var bottomNav:BottomNavigationView
+    private lateinit var bottomNav: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,14 +21,17 @@ class MainActivity : AppCompatActivity() {
         val navController = host.navController
         setUpBottomNav(navController)
     }
+
     private fun setUpBottomNav(navController: NavController) {
         bottomNav = findViewById(R.id.bottom_navigation)
         bottomNav.setupWithNavController(navController)
     }
-    fun hideBottomNavigationBar(){
-        bottomNav.visibility= View.GONE
+
+    fun hideBottomNavigationBar() {
+        bottomNav.visibility = View.GONE
     }
-    fun showBottomNavigationBar(){
-        bottomNav.visibility= View.VISIBLE
+
+    fun showBottomNavigationBar() {
+        bottomNav.visibility = View.VISIBLE
     }
 }
