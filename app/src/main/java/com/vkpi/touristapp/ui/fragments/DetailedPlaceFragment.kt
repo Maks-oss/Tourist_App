@@ -16,6 +16,7 @@ import com.vkpi.touristapp.R
 import com.vkpi.touristapp.database.entities.User
 import com.vkpi.touristapp.databinding.FragmentDetailedPlaceBinding
 import com.vkpi.touristapp.databinding.FragmentSearchBinding
+import com.vkpi.touristapp.ui.MainActivity
 import com.vkpi.touristapp.utils.IMAGE_NOT_FOUND_URL
 import com.vkpi.touristapp.viewmodels.PlaceViewModel
 import com.vkpi.touristapp.viewmodels.UserViewModel
@@ -39,6 +40,7 @@ class DetailedPlaceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).hideBottomNavigationBar()
         args.placeId?.let {
             if (findNavController().previousBackStackEntry!!.destination.id == R.id.savedFragment)
                 placeViewModel.applyPlaceDetailFromDatabase(it)

@@ -18,6 +18,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.vkpi.touristapp.R
 import com.vkpi.touristapp.data.Places
+import com.vkpi.touristapp.ui.MainActivity
 import com.vkpi.touristapp.utils.*
 import com.vkpi.touristapp.viewmodels.PlaceViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,8 +45,8 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).showBottomNavigationBar()
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(requireContext())
-
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
         setupObserver()

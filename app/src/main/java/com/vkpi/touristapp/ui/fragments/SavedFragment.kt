@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vkpi.touristapp.R
 import com.vkpi.touristapp.lists.SavedPlaceListAdapter
 import com.vkpi.touristapp.lists.SwipeToDeleteCallback
+import com.vkpi.touristapp.ui.MainActivity
 import com.vkpi.touristapp.utils.showMessage
 import com.vkpi.touristapp.viewmodels.PlaceViewModel
 import com.vkpi.touristapp.viewmodels.UserViewModel
@@ -24,6 +25,7 @@ class SavedFragment : Fragment(R.layout.fragment_saved) {
     private val userViewModel by activityViewModels<UserViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).showBottomNavigationBar()
         placeViewModel.applyUserPlaces(userViewModel.userIdLiveData.value!!)
         setupRecyclerView(view)
         setupObserver()

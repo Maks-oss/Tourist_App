@@ -3,8 +3,8 @@ package com.vkpi.touristapp.data
 import android.util.Log
 
 data class PlaceDetail(
-    val address: Address,
-    val bbox: Bbox,
+    val address: Address?,
+    val bbox: Bbox?,
     val image: String,
     val kinds: String,
     val name: String,
@@ -13,7 +13,7 @@ data class PlaceDetail(
     val point: Point,
     val preview: Preview?,
     val rate: String,
-    val sources: Sources,
+    val sources: Sources?,
     val wikidata: String,
     val wikipedia: String,
     val wikipedia_extracts: WikipediaExtracts?,
