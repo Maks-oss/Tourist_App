@@ -1,0 +1,47 @@
+{
+  "xid": "R4682064",
+  "name": "Oakland City Hall",
+  "address": {
+    "city": "Oakland",
+    "county": "Alameda County",
+    "country": "United States of America",
+    "country_code": "us",
+    "house_number": "1",
+    "neighbourhood": "Downtown",
+    "postcode": "94612"
+  },
+  "rate": "3h",
+  "osm": "relation/4682064",
+  "bbox": {
+    "lon_min": -122.272894,
+    "lon_max": -122.272177,
+    "lat_min": 37.804986,
+    "lat_max": 37.805619
+  },
+  "wikidata": "Q932794",
+  "kinds": "historic_architecture,architecture,interesting_places,other_buildings_and_structures",
+  "sources": {
+    "geometry": "osm",
+    "attributes": [
+      "osm",
+      "wikidata"
+    ]
+  },
+  "otm": "https://opentripmap.com/en/card/R4682064",
+  "wikipedia": "https://en.wikipedia.org/wiki/Oakland%20City%20Hall",
+  "image": "https://commons.wikimedia.org/wiki/File:Oakland_City_Hall_%28Oakland%2C_CA%29_2.JPG",
+  "preview": {
+    "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Oakland_City_Hall_%28Oakland%2C_CA%29_2.JPG/300px-Oakland_City_Hall_%28Oakland%2C_CA%29_2.JPG",
+    "height": 400,
+    "width": 300
+  },
+  "wikipedia_extracts": {
+    "title": "en:Oakland City Hall",
+    "text": "Oakland City Hall is the seat of government for the city of Oakland, California. The current building was completed in 1914, and replaced a prior building that stood on what is now Frank H. Ogawa Plaza. Standing at the height of 320 feet (98 m), it was the first high-rise government building in the United States. At the time it was built, it was also the tallest building west of the Mississippi River.",
+    "html": "<p><b>Oakland City Hall</b> is the seat of government for the city of Oakland, California. The current building was completed in 1914, and replaced a prior building that stood on what is now Frank H. Ogawa Plaza. Standing at the height of 320 feet (98&nbsp;m), it was the first high-rise government building in the United States. At the time it was built, it was also the tallest building west of the Mississippi River.</p>"
+  },
+  "point": {
+    "lon": -122.272705,
+    "lat": 37.80513
+  }
+}

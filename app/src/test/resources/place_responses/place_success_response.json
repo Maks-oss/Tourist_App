@@ -1,0 +1,43 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "12943240",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.125894,
+          51.508701
+        ]
+      },
+      "properties": {
+        "xid": "Q18159614",
+        "name": "A Conversation with Oscar Wilde",
+        "dist": 21.72669261,
+        "rate": 3,
+        "wikidata": "Q18159614",
+        "kinds": "historic,cultural,urban_environment,monuments_and_memorials,burial_places,interesting_places,other_burial_places,sculptures,monuments"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12991050",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.126005,
+          51.508694
+        ]
+      },
+      "properties": {
+        "xid": "Q27083683",
+        "name": "Drinking Fountain Attached To Church Walls And Railing To Church Of St Martin In The Fields",
+        "dist": 25.75565004,
+        "rate": 6,
+        "wikidata": "Q27083683",
+        "kinds": "historic,monuments_and_memorials,interesting_places,monuments"
+      }
+    }
+  ]
+}
