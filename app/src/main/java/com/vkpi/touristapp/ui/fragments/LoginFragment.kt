@@ -65,7 +65,7 @@ class LoginFragment : Fragment() {
                     userViewModel.applyUserId(userId)
                     findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSearchFragment())
                 } else {
-                    requireContext().showMessage(getString(R.string.user_not_exist_message))
+                    requireView().showMessage(getString(R.string.user_not_exist_message))
                 }
             }
         }

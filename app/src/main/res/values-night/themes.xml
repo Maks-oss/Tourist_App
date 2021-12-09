@@ -5,12 +5,12 @@
         <item name="textAppearanceBody1">@style/TextAppearance.TouristApp.AppearanceBody1</item>
         <item name="textAppearanceButton">@style/TextAppearance.TouristApp.AppearanceButton</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primaryDarkColor</item>
-        <item name="colorPrimaryVariant">@color/primary</item>
+        <item name="colorPrimary">@color/secondaryDarkColor</item>
+        <item name="colorPrimaryVariant">@color/secondaryColor</item>
         <item name="colorOnPrimary">@android:color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/secondaryDarkColor</item>
-        <item name="colorSecondaryVariant">@color/secondaryColor</item>
+        <item name="colorSecondary">@color/primaryDarkColor</item>
+        <item name="colorSecondaryVariant">@color/primary</item>
         <item name="colorOnSecondary">@android:color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>

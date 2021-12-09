@@ -39,7 +39,7 @@ class SavedFragment : Fragment(R.layout.fragment_saved) {
                 val item = savedPlaceListAdapter.getPlace(index)
                 placeViewModel.deletePlaceFromDb(item)
                 savedPlaceListAdapter.removeItem(index)
-                requireContext().showMessage(getString(R.string.deleted_item_message))
+                requireView().showMessage(getString(R.string.deleted_item_message))
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeHandler)

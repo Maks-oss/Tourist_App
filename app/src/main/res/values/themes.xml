@@ -6,13 +6,13 @@
         <item name="textAppearanceBody1">@style/TextAppearance.TouristApp.AppearanceBody1</item>
         <item name="textAppearanceButton">@style/TextAppearance.TouristApp.AppearanceButton</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primaryLightColor</item>
+        <item name="colorPrimary">@color/secondaryColor</item>
         <item name="android:colorBackground">@color/backgroundColor</item>
-        <item name="colorPrimaryVariant">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/secondaryLightColor</item>
         <item name="colorOnPrimary">@color/primaryTextColor</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/secondaryLightColor</item>
-        <item name="colorSecondaryVariant">@color/secondaryColor</item>
+        <item name="colorSecondary">@color/primary</item>
+        <item name="colorSecondaryVariant">@color/primaryLightColor</item>
         <item name="colorOnSecondary">@color/secondaryTextColor</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>

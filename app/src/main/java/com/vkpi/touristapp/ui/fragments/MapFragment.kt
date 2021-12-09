@@ -1,10 +1,7 @@
 package com.vkpi.touristapp.ui.fragments
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
@@ -13,7 +10,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
@@ -55,7 +51,7 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
         setupObserver()
         view.findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener {
             clearMarkers()
-            showAlerDialog()
+            showAlertDialog()
         }
 
     }
@@ -73,7 +69,7 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
         }
     }
 
-    private fun showAlerDialog() {
+    private fun showAlertDialog() {
         val singleItems = resources.getStringArray(R.array.radius_array)
         val checkedItem = 0
         var radius = singleItems[checkedItem].extractMeters()
@@ -98,10 +94,10 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
     private fun setupObserver() {
         placeViewModel.placesLiveData.observe(viewLifecycleOwner) { place ->
             if (place is Resource.Success) {
-                if (place.data!=null) {
-                    processGoogleMapMarkers(place.data)
+                if (!place.data?.features.isNullOrEmpty()) {
+                    processGoogleMapMarkers(place.data!!)
                 } else {
-                    requireContext().showMessage(getString(R.string.empty_response))
+                    requireView().showMessage(getString(R.string.empty_response))
                 }
             }
         }

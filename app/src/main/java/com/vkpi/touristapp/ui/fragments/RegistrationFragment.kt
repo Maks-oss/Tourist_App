@@ -82,7 +82,7 @@ class RegistrationFragment : Fragment() {
                     userViewModel.applyUserId(userId)
                     findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToSearchFragment())
                 } else {
-                    requireContext().showMessage(getString(R.string.existing_user_message))
+                   requireView().showMessage(getString(R.string.existing_user_message))
                 }
             }
         }

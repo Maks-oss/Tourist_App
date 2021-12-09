@@ -92,7 +92,7 @@ class SearchFragment : Fragment() {
                 is Resource.Success -> {
                     val list = placeViewModel.getSortedFeatureList()
                     if (list.isNullOrEmpty()) {
-                        requireContext().showMessage(getString(R.string.empty_response))
+                        requireView().showMessage(getString(R.string.empty_response))
                     } else {
                         placeListAdapter.submitList(list)
                         createChips(list)
@@ -103,7 +103,7 @@ class SearchFragment : Fragment() {
                     startShimmerAnimation()
                 }
                 is Resource.Error -> {
-                    requireContext().showMessage(place.message!!)
+                    requireView().showMessage(place.message!!)
                     stopShimmerAnimation()
                 }
             }
