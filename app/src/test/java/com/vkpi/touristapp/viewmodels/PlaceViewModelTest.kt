@@ -12,6 +12,7 @@ import com.vkpi.touristapp.database.entities.Place
 import com.vkpi.touristapp.livedatautils.getOrAwaitValue
 import com.vkpi.touristapp.repository.PlaceRepository
 import com.vkpi.touristapp.repository.UserRepository
+import com.vkpi.touristapp.utils.Resource
 import com.vkpi.touristapp.utils.getUserPlaceEntity
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -85,16 +86,6 @@ class PlaceViewModelTest {
         viewModel.applyPlaceDetailFromServer("test", 1)
         val value = viewModel.placeDetailLiveData.getOrAwaitValue()
         assertThat(value).isEqualTo(placeDetail.getUserPlaceEntity(1))
-    }
-
-    @Test
-    fun `apply places should apply places to livedata`() = runBlocking {
-        val places = Places(listOf(), "test")
-        coEvery { repository.getPlaces(any(), any(), any()) } returns places
-        viewModel.applyPlaces("test", "test")
-        val value = viewModel.placesLiveData.getOrAwaitValue().data
-        assertThat(value).isEqualTo(places)
-
     }
 
     @Test

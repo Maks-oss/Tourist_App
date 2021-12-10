@@ -133,6 +133,7 @@ class SearchFragment : Fragment() {
 
     private fun createChips(list: List<Feature>) {
         val chipList = list.map { it.properties.kinds.split(",") }.flatten().distinct()
+        fragmentSearchBinding.chipGroup.removeAllViews()
         chipList.forEach { category ->
             fragmentSearchBinding.chipGroup.addView(requireContext().createChip(category))
         }
