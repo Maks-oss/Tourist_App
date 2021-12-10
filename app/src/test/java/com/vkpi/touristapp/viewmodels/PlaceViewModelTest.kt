@@ -110,11 +110,11 @@ class PlaceViewModelTest {
     @Test
     fun `get sorted list should return list with sorted rates and distinct`() = runBlocking {
         val places = Places(
-            features = listOf(getFeature(2,"test"),getFeature(5,""),getFeature(6,"test")), "test")
+            features = listOf(getFeature(2,"test"),getFeature(5,"te"),getFeature(6,"test")), "test")
         coEvery { repository.getPlaces(any(), any(), any()) } returns places
         viewModel.applyPlaces("test", "test")
         val value = viewModel.getSortedFeatureList()
-        assertThat(value).isEqualTo(listOf(getFeature(6,"test"),getFeature(5,"")))
+        assertThat(value).isEqualTo(listOf(getFeature(6,"test"),getFeature(5,"te")))
     }
 
 

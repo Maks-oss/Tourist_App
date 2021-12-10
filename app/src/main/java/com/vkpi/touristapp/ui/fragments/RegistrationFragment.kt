@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.vkpi.touristapp.R
@@ -23,7 +25,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class RegistrationFragment : Fragment() {
     private lateinit var registrationBinding: FragmentRegistrationBinding
-    private val userViewModel by activityViewModels<UserViewModel>()
+    lateinit var userViewModel : UserViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +36,7 @@ class RegistrationFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        userViewModel= ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         registrationBinding.btnLogin.setOnClickListener {
             processRegistration()
         }

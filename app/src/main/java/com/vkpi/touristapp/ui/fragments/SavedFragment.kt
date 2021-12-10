@@ -2,10 +2,9 @@ package com.vkpi.touristapp.ui.fragments
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.vkpi.touristapp.R
@@ -19,13 +18,14 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SavedFragment : Fragment(R.layout.fragment_saved) {
-    private lateinit var savedPlaceListAdapter: SavedPlaceListAdapter
+    lateinit var savedPlaceListAdapter: SavedPlaceListAdapter
     private lateinit var recyclerView: RecyclerView
-    private val placeViewModel by viewModels<PlaceViewModel>()
+    lateinit var placeViewModel: PlaceViewModel
     private val userViewModel by activityViewModels<UserViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).showBottomNavigationBar()
+        (activity as? MainActivity)?.showBottomNavigationBar()
+        placeViewModel = ViewModelProvider(requireActivity()).get(PlaceViewModel::class.java)
         userViewModel.userIdLiveData.value?.let {
             placeViewModel.applyUserPlaces(it)
         }

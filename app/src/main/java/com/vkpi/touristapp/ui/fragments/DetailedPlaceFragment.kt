@@ -41,6 +41,7 @@ class DetailedPlaceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).hideBottomNavigationBar()
+
         args.placeId?.let {
             if (findNavController().previousBackStackEntry!!.destination.id == R.id.savedFragment)
                 placeViewModel.applyPlaceDetailFromDatabase(it)

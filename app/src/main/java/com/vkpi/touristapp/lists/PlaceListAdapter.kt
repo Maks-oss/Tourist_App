@@ -33,8 +33,8 @@ class PlaceListAdapter :
     }
 
     fun submitList(list: List<Feature>) {
-        val placesList = list.filter { feat -> feat.properties.name.isNotEmpty() }.toMutableList()
-        differ.submitList(placesList)
+
+        differ.submitList(list.toMutableList())
     }
 
     fun filterList(list: List<Feature>,param: String) {

@@ -82,7 +82,7 @@ class PlaceViewModel @Inject constructor(private val placeRepository: PlaceRepos
 
     fun getSortedFeatureList(): List<Feature>? {
         return _placeLiveData.value?.data?.features?.sortedByDescending { it.properties.rate }
-            ?.distinctBy { it.properties.name }
+            ?.distinctBy { it.properties.name }?.filter { it.properties.name.isNotEmpty() }
     }
 
     fun applyPlaces(lat: String, lot: String,radius:String = "1000") {

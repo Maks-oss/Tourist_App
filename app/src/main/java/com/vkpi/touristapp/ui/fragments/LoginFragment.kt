@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.vkpi.touristapp.R
@@ -19,11 +21,12 @@ import com.vkpi.touristapp.viewmodels.PlaceViewModel
 import com.vkpi.touristapp.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.jetbrains.annotations.TestOnly
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
     private lateinit var fragmentLoginBinding: FragmentLoginBinding
-    private val userViewModel by activityViewModels<UserViewModel>()
+    lateinit var userViewModel : UserViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,6 +38,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as? MainActivity)?.hideBottomNavigationBar()
+        userViewModel=ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         fragmentLoginBinding.btnLogin.setOnClickListener {
             processLogin()
         }

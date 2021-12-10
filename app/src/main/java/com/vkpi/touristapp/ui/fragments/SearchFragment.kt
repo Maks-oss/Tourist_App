@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import com.google.android.material.chip.Chip
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
     private lateinit var fragmentSearchBinding: FragmentSearchBinding
-    private val placeViewModel by viewModels<PlaceViewModel>()
+    lateinit var placeViewModel: PlaceViewModel
 
 
     private lateinit var placeListAdapter: PlaceListAdapter
@@ -41,7 +41,8 @@ class SearchFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as MainActivity).showBottomNavigationBar()
+        (activity as? MainActivity)?.showBottomNavigationBar()
+        placeViewModel = ViewModelProvider(requireActivity()).get(PlaceViewModel::class.java)
         setupObservers()
         setupTextInput()
         setupRecyclerView()
@@ -75,7 +76,9 @@ class SearchFragment : Fragment() {
             job = lifecycleScope.launch {
                 delay(2000)
                 input?.let { city ->
-                    if (city.toString().isNotEmpty() && !placeViewModel.getCityName().equals(city.toString(), ignoreCase = true)) {
+                    if (city.toString().isNotEmpty() && !placeViewModel.getCityName()
+                            .equals(city.toString(), ignoreCase = true)
+                    ) {
                         placeViewModel.applyCity(city.toString())
                     }
                 }
