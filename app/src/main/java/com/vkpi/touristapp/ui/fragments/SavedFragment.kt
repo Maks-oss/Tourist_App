@@ -26,7 +26,9 @@ class SavedFragment : Fragment(R.layout.fragment_saved) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).showBottomNavigationBar()
-        placeViewModel.applyUserPlaces(userViewModel.userIdLiveData.value!!)
+        userViewModel.userIdLiveData.value?.let {
+            placeViewModel.applyUserPlaces(it)
+        }
         setupRecyclerView(view)
         setupObserver()
     }

@@ -34,7 +34,7 @@ class LoginFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as MainActivity).hideBottomNavigationBar()
+        (activity as? MainActivity)?.hideBottomNavigationBar()
         fragmentLoginBinding.btnLogin.setOnClickListener {
             processLogin()
         }
